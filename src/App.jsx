@@ -6,6 +6,14 @@ function App() {
   const [pixels, setPixels] = useState([]);
 
   useEffect(() => {
+    //connect to socket in "index.html"
+    socket.connect()
+
+    //turn on a listener for "test-event"
+    socket.on('test-event', (data) => {
+      console.log(data)
+    })
+
     const newPixels = [];
 
     for (let y = 1; y < 2501; y++) {
@@ -25,6 +33,11 @@ function App() {
     }
 
     setPixels(newPixels);
+
+    //on component unmout, turn off the listener for "test-event"
+    return () => {
+      socket.off('test-event')
+    }
   }, []); // Empty dependency array ensures this effect runs only once on mount
 
   return (
@@ -38,6 +51,9 @@ function App() {
               onMouseOver={() => {
                 setSelected(meow.coords + ' ' + meow.color);
               }}
+              onClick={() => {
+                socket.emit('test-event', {data: meow.coords + ' ' + meow.color})
+              }}
             ></div>
           ))}
         </div>
@@ -45,6 +61,10 @@ function App() {
 
       <footer>
         <h1>{selected}</h1>
+        {/* button that fires test event */}
+        <button onClick={() => {
+          socket.emit('test-event', {data: 'hello world'})
+        }}>Test Event</button>
       </footer>
     </>
   )

@@ -23,6 +23,16 @@ app.get('/api', (req, res) => {
     res.json({Success: "true"})
 })
 
+//on socket connection
+io.on('connection', (socket) => {
+    socket.on('disconnect', () => {})
+    socket.on('test-event', (data) => {
+        //TODO: write to sql db ?
+        console.log(data)
+        io.emit('test-event', {data: 'test message'})
+    })
+})
+
 server.listen(8000, () => {
     console.log(`Hold ctrl and click this: http://localhost:8000/`)
 })
