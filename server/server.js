@@ -2,6 +2,7 @@ import express from 'express'
 import ViteExpress from 'vite-express'
 import http from 'http'
 import { Server } from 'socket.io'
+import db from './utils/db.js'
 
 const app = express()
 
@@ -18,6 +19,12 @@ ViteExpress.config({ printViteDevServerHost: true })
 // app.get('/', (req, res) => {
 //     res.sendFile('index.html', { root: '.' })
 // })
+
+await db.redis.connect();
+await db.redis.setPixel();
+await db.redis.seed();
+
+await db.redis.getCanvas();
 
 app.get('/api', (req, res) => {
     res.json({Success: "true"})
