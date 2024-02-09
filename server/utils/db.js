@@ -12,26 +12,21 @@ const db = {
             await redisClient.connect();
         },
         setPixel: async () => {
-            console.log('Pixel set: ' + await redisClient.set('1, 1', 'green'));
+            console.log('Pixel set: ' + await redisClient.hSet(`pixel`, {
+                    index: 1,
+                    coordinate: '1, 1', 
+                    color: "white"
+                }));
         },
         getCanvas: async () => {
+            let keys = await redisClient.hGetAll('pixel');
 
-            let keys = await redisClient.keys('*');
-
-            console.log("meow")
             console.log(keys)
+            
             keys.forEach(async (key) => {
-                
-                    console.log("each")
 
-                    await redisClient.get(key, (err, value) => {
-                        if (err) {
-                            console.log(`${key}: ${value}`);
-                        } else {
-                            console.log(`${key}: ${value}`);
-                        }
-                    })
-                })
+                console.log(key + ' ' + await redisClient.hGet(key))
+            })
         },
         seed: async () => {
             for (let y = 1; y < 2501; y++) {
@@ -47,12 +42,18 @@ const db = {
                     color = "blue";
                 }
 
-                const coordinate = `${Math.ceil(y / 50)} ${y - ((Math.ceil(y / 50) - 1) * 50)}`
+                const coordinate = `${Math.ceil(y / 50)}, ${y - ((Math.ceil(y / 50) - 1) * 50)}`
 
-                console.log(color)
-                await redisClient.set((`${coordinate}`), color);
+                await redisClient.hSet(`${y}`, {
+                    index: y,
+                    coordinate: coordinate, 
+                    color: color
+                });
             }
 
+        },
+        wipeCanvas: async () => {
+            await redisClient.flushAll()
         }
     }
 }

@@ -21,6 +21,7 @@ ViteExpress.config({ printViteDevServerHost: true })
 // })
 
 await db.redis.connect();
+await db.redis.wipeCanvas();
 await db.redis.setPixel();
 await db.redis.seed();
 
