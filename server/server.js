@@ -15,9 +15,9 @@ const io = new Server(server)
 ViteExpress.config({ printViteDevServerHost: true })
 
 // routes
-app.get('/', (req, res) => {
-    res.sendFile('index.html', { root: '.' })
-})
+// app.get('/', (req, res) => {
+//     res.sendFile('index.html', { root: '.' })
+// })
 
 app.get('/api', (req, res) => {
     res.json({Success: "true"})
