@@ -1,33 +1,51 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import { useState, useEffect } from 'react'
 import './App.css'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [selected, setSelected] = useState("1, 2");
+  const [pixels, setPixels] = useState([]);
+
+  useEffect(() => {
+    const newPixels = [];
+
+    for (let y = 1; y < 2501; y++) {
+      let val = Math.floor(Math.random() * (4 - 1 + 1) + 1);
+      let color;
+      if (val === 1) {
+        color = "red";
+      } else if (val === 2) {
+        color = "green";
+      } else if (val === 3) {
+        color = "white";
+      } else {
+        color = "blue";
+      }
+
+      newPixels.push({ coords: (`${Math.ceil(y / 50)}, ${y - ((Math.ceil(y / 50) - 1) * 50)}`), color: color });
+    }
+
+    setPixels(newPixels);
+  }, []); // Empty dependency array ensures this effect runs only once on mount
 
   return (
     <>
       <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+        <div className="basic-grid">
+          {pixels.map((meow) => (
+            <div
+              className={`card + ${meow.color}`}
+              key={meow.coords}
+              onMouseOver={() => {
+                setSelected(meow.coords + ' ' + meow.color);
+              }}
+            ></div>
+          ))}
+        </div>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+
+      <footer>
+        <h1>{selected}</h1>
+      </footer>
     </>
   )
 }
