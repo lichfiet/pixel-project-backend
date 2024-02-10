@@ -103,8 +103,7 @@ function App() {
           <input
             type="color"
             id="head"
-            value={currColor}
-            onChange={handleColorChange}
+            onBlur={handleColorChange}
           />
         </div>
       </footer>
