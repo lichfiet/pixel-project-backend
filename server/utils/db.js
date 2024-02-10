@@ -11,9 +11,10 @@ const db = {
             await redisClient.on('error', err => console.log('Redis Client Error', err));
             await redisClient.connect();
         },
-        setPixel: async () => {
-            console.log('Pixel set: ' + await redisClient.set(`1`, 'white'));
-            console.log('Pixel set: ' + await redisClient.set(`1`, `green`));
+        setPixel: async (index, color) => {
+                
+               return(await redisClient.set(`${index}`, `${color}`))
+
         },
         getCanvas: async () => {
 
@@ -26,7 +27,7 @@ const db = {
                   // Using Promise.all to wait for all async operations to complete
                   await Promise.all(keys.map(async (key) => {
                     const val = await redisClient.get(key);
-                    arr[(key - 1)] = val;
+                    arr[(key)] = val;
                   }));
               
                   return arr;
@@ -43,22 +44,13 @@ const db = {
             return(test1)
         },
         seed: async () => {
-            for (let y = 1; y < 2501; y++) {
+            for (let y = 0; y < 2500; y++) {
                 let val = Math.floor(Math.random() * (4 - 1 + 1) + 1);
                 let color;
-                if (val === 1) {
-                    color = "red";
-                } else if (val === 2) {
-                    color = "green";
-                } else if (val === 3) {
-                    color = "white";
-                } else {
-                    color = "blue";
-                }
 
-                const coordinate = `${Math.ceil(y / 50)}, ${y - ((Math.ceil(y / 50) - 1) * 50)}`
 
-                await redisClient.set(`${y}`, `${color}`);
+
+                await redisClient.set(`${y}`, `white`);
             }
 
         },

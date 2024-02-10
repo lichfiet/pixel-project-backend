@@ -42,10 +42,18 @@ app.put('/setPixel', async (req, res) => {
 //on socket connection
 io.on('connection', (socket) => {
     socket.on('disconnect', () => {})
-    socket.on('test-event', (data) => {
-        //TODO: write to sql db ?
-        console.log(data)
-        io.emit('test-event', {data: 'test message'})
+
+    socket.on('pixel-update', async (data) => {
+
+        console.log(data.data)
+        
+        try {
+            console.log(await db.redis.setPixel(data.data.index, data.data.color))
+        } catch (err) {
+
+        }
+
+        io.emit('pixel-update', {data: {index: data.data.index, color: data.data.color}});
     })
 })
 

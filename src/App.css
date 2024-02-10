@@ -19,6 +19,10 @@
   width: 500px
 }
 
+.h1 {
+  font-size: 60%;
+}
+
 .card {
   display: flex;
   flex-direction: column;
