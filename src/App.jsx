@@ -1,9 +1,12 @@
 import { useState, useEffect } from 'react'
 import './App.css'
+import axios from 'axios'
+import { debounce } from 'lodash-es';
 
 function App() {
   const [selected, setSelected] = useState("1, 2");
   const [pixels, setPixels] = useState([]);
+  const [currColor, setCurrColor] = useState('#000000');
 
   useEffect(() => {
     //connect to socket in "index.html"
@@ -14,31 +17,37 @@ function App() {
       console.log(data)
     })
 
-    const newPixels = [];
+    const board = async () => {
+      try {
+        const test1 = await axios.get(`http://localhost:8000/getCanvas`);
 
-    for (let y = 1; y < 2501; y++) {
-      let val = Math.floor(Math.random() * (4 - 1 + 1) + 1);
-      let color;
-      if (val === 1) {
-        color = "red";
-      } else if (val === 2) {
-        color = "green";
-      } else if (val === 3) {
-        color = "white";
-      } else {
-        color = "blue";
+        console.log(test1.data);
+
+        const drawnPixels = [];
+
+        for (let n = 1; n < test1.data.length + 1; n++) {
+          const coordinate = `${Math.ceil(n / 50)}, ${n - ((Math.ceil(n / 50) - 1) * 50)}`;
+          drawnPixels.push({ coords: coordinate, color: test1.data[n], index: n });
+        }
+
+        setPixels(drawnPixels);
+      } catch (error) {
+        console.error("Error fetching canvas data:", error);
       }
+    };
 
-      newPixels.push({ coords: (`${Math.ceil(y / 50)}, ${y - ((Math.ceil(y / 50) - 1) * 50)}`), color: color });
-    }
+    board();
 
-    setPixels(newPixels);
 
     //on component unmout, turn off the listener for "test-event"
     return () => {
       socket.off('test-event')
     }
   }, []); // Empty dependency array ensures this effect runs only once on mount
+
+  const handleColorChange = debounce((event) => {
+    setCurrColor(event.target.value);
+  }, 300); // Adjust the debounce time as needed
 
   return (
     <>
@@ -48,11 +57,13 @@ function App() {
             <div
               className={`card + ${meow.color}`}
               key={meow.coords}
+              index={meow}
               onMouseOver={() => {
-                setSelected(meow.coords + ' ' + meow.color);
+                setSelected(meow.coords + ' ' + meow.color + ' ' + meow.index);
               }}
               onClick={() => {
-                socket.emit('test-event', {data: meow.coords + ' ' + meow.color})
+                socket.emit('test-event', { data: {coords: meow.coords, color: currColor}})
+                {console.log(meow.index)}
               }}
             ></div>
           ))}
@@ -63,8 +74,18 @@ function App() {
         <h1>{selected}</h1>
         {/* button that fires test event */}
         <button onClick={() => {
-          socket.emit('test-event', {data: 'hello world'})
+          socket.emit('test-event', { data: 'hello world' })
         }}>Test Event</button>
+        <div>
+          <label for="head">Current Color</label>
+          <input
+            type="color"
+            id="head"
+            value={currColor}
+            onChange={handleColorChange}
+          />
+
+        </div>
       </footer>
     </>
   )

@@ -12,21 +12,35 @@ const db = {
             await redisClient.connect();
         },
         setPixel: async () => {
-            console.log('Pixel set: ' + await redisClient.hSet(`pixel`, {
-                    index: 1,
-                    coordinate: '1, 1', 
-                    color: "white"
-                }));
+            console.log('Pixel set: ' + await redisClient.set(`1`, 'white'));
+            console.log('Pixel set: ' + await redisClient.set(`1`, `green`));
         },
         getCanvas: async () => {
-            let keys = await redisClient.hGetAll('pixel');
 
-            console.log(keys)
-            
-            keys.forEach(async (key) => {
+            let keys = await redisClient.keys('*');
 
-                console.log(key + ' ' + await redisClient.hGet(key))
-            })
+            const formattedKeys = async (keys) => {
+                try {
+                  let arr = [];
+              
+                  // Using Promise.all to wait for all async operations to complete
+                  await Promise.all(keys.map(async (key) => {
+                    const val = await redisClient.get(key);
+                    arr[(key - 1)] = val;
+                  }));
+              
+                  return arr;
+                } catch (error) {
+                  console.error("Error in formattedKeys:", error);
+                  throw error;
+                }
+              }
+
+
+            const test1 = formattedKeys(keys)
+
+
+            return(test1)
         },
         seed: async () => {
             for (let y = 1; y < 2501; y++) {
@@ -44,11 +58,7 @@ const db = {
 
                 const coordinate = `${Math.ceil(y / 50)}, ${y - ((Math.ceil(y / 50) - 1) * 50)}`
 
-                await redisClient.hSet(`${y}`, {
-                    index: y,
-                    coordinate: coordinate, 
-                    color: color
-                });
+                await redisClient.set(`${y}`, `${color}`);
             }
 
         },

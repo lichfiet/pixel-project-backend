@@ -31,6 +31,14 @@ app.get('/api', (req, res) => {
     res.json({Success: "true"})
 })
 
+app.get('/getCanvas', async (req, res) => {
+    res.status(200).send(await db.redis.getCanvas())
+});
+
+app.put('/setPixel', async (req, res) => {
+    res.status(200).send(await db.redis.getCanvas())
+});
+
 //on socket connection
 io.on('connection', (socket) => {
     socket.on('disconnect', () => {})
