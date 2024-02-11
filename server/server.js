@@ -55,6 +55,20 @@ io.on('connection', (socket) => {
 
         io.emit('pixel-update', {data: {index: data.data.index, color: data.data.color}});
     })
+
+    socket.on('canvas-reset', async (data) => {
+
+        console.log(data)
+        
+        try {
+            console.log(await db.redis.wipeCanvas());
+            console.log(await db.redis.seed());
+        } catch (err) {
+
+        }
+
+        io.emit('canvas-reset', {data: 'Canvas Wiped'});
+    })
 })
 
 server.listen(8000, () => {

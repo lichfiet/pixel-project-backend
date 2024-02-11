@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import './App.css';
 import axios from 'axios';
-import { debounce } from 'lodash-es';
 
 const socket = io('http://localhost:8000'); // Replace with your server URL
 
@@ -13,11 +12,13 @@ function App() {
   const board = async () => {
     try {
       const test1 = await axios.get(`http://localhost:8000/getCanvas`);
-      const drawnPixels = test1.data.map((color, index) => ({
-        coords: `${Math.ceil((index + 1) / 50)}, ${(index + 1) - (Math.ceil((index + 1) / 50) - 1) * 50}`,
-        color,
-        index,
-      }));
+
+      const drawnPixels = test1.data.map(
+        (color, index) => (
+          { coords: `${Math.ceil((index + 1) / 50)}, ${(index + 1) - (Math.ceil((index + 1) / 50) - 1) * 50}`, color, index, }
+        )
+      );
+      
       setPixels(drawnPixels);
     } catch (error) {
       console.error("Error fetching canvas data:", error);
@@ -43,11 +44,17 @@ function App() {
       });
     });
 
+    socket.on('canvas-reset', ({ data }) => {
+      board();
+      console.log(data);
+    });
+
     board();
 
     // On component unmount, turn off the listener for "test-event"
     return () => {
-      socket.off('test-event');
+      socket.off('pixel-update');
+      socket.off('canvas-reset');
       socket.disconnect();
     };
   }, []); // Empty dependency array ensures this effect runs only once on mount
@@ -95,8 +102,8 @@ function App() {
       <footer>
         <h1 className='h1'>{selected}</h1>
         {/* Button that fires test event */}
-        <button onClick={() => socket.emit('test-event', { data: 'hello world' })}>
-          Test Event
+        <button onClick={() => socket.emit('canvas-reset', { data: 'I wiped my canvas' })}>
+          Wipe Canvas
         </button>
         <div>
           <label htmlFor="head">Current Color</label>
