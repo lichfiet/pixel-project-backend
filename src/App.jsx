@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import './App.css';
 import axios from 'axios';
 
-const socket = io('http://localhost:8000'); // Replace with your server URL
+const socket = io('http://52.207.59.79:8000'); // Replace with your server URL
 
 function App() {
   const [selected, setSelected] = useState("1, 2");
@@ -11,7 +11,7 @@ function App() {
 
   const board = async () => {
     try {
-      const test1 = await axios.get(`http://localhost:8000/getCanvas`);
+      const test1 = await axios.get(`http://52.207.59.79:8000/getCanvas`);
 
       const drawnPixels = test1.data.map(
         (color, index) => (
