@@ -15,8 +15,8 @@
   /* grid-template-columns: repeat(12, minmax(240px, 1fr)); */
 
   /* 4 final */
-  grid-template-columns: repeat(auto-fill, minmax(10px, 1fr));
-  width: 500px
+  grid-template-columns: repeat(auto-fill, minmax(13px, 1fr));
+  width: 650px
 }
 
 .h1 {
@@ -31,9 +31,9 @@
   background: #353535;
   color: #fff;
   box-shadow: rgba(3, 8, 20, 0.1) 0px 0.15rem 0.5rem, rgba(2, 8, 20, 0.1) 0px 0.075rem 0.175rem;
-  height: 10px;
-  width: 10px;
-  transition: all 100ms;
+  height: 13px;
+  width: 13px;
+  transition: all 0ms;
   overflow: hidden;
 
   background-size: cover;
@@ -42,8 +42,8 @@
 }
 
 .card:hover {
-  box-shadow: rgb(138, 138, 138) 0px 0.35em 1.175em, rgb(255, 255, 255) 0px 0.175em 0.5em;
-  transform: translateY(-1px) scale(1.1);
+  box-shadow: rgb(126, 125, 125) 0px 0em 1.5em;
+  transform: translateY(-1px);
 }
 
 .red {

@@ -4,7 +4,6 @@ import http from 'http'
 import { Server } from 'socket.io'
 import db from './utils/db.js'
 import logger from './utils/logger.js'
-import 'dotenv/config'
 
 const app = express()
 
@@ -46,11 +45,8 @@ io.on('connection', (socket) => {
     socket.on('disconnect', () => {})
 
     socket.on('pixel-update', async (data) => {
-
-        logger.info(data.data)
-        
         try {
-            logger.info(await db.redis.setPixe(data.data.index, data.data.color))
+            logger.info(`Setting Index ${data.data.index}, Redis Response: ` + await db.redis.setPixel(data.data.index, data.data.color))
         } catch (err) {
             logger.info(`An error occured updating the redis cache: ${err.message}`)
         }
