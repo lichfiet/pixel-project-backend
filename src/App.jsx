@@ -5,7 +5,7 @@ import axios from 'axios';
 const socket = io('http://52.207.59.79:8000'); // Replace with your server URL
 
 function App() {
-  const [selected, setSelected] = useState("1, 2");
+  const [selected, setSelected] = useState("0, 0");
   const [pixels, setPixels] = useState([]);
   const [currColor, setCurrColor] = useState('#000000');
 
