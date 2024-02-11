@@ -53,9 +53,12 @@ const db = {
                 await redisClient.set(`${y}`, `white`);
             }
 
+            return('Canvas Seeded');
         },
         wipeCanvas: async () => {
-            await redisClient.flushAll()
+            await redisClient.flushAll();
+
+            return('Canvas Wiped')
         }
     }
 }

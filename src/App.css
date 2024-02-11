@@ -42,8 +42,8 @@
 }
 
 .card:hover {
-  box-shadow: rgb(255, 255, 255) 0px 0.35em 1.175em, rgb(255, 255, 255) 0px 0.175em 0.5em;
-  transform: translateY(-1px) scale(1.3);
+  box-shadow: rgb(138, 138, 138) 0px 0.35em 1.175em, rgb(255, 255, 255) 0px 0.175em 0.5em;
+  transform: translateY(-1px) scale(1.1);
 }
 
 .red {
