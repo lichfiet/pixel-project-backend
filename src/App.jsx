@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import './App.css';
 import axios from 'axios';
-import 'dotenv/config'
 
 const socket = io(`http://localhost:8000/`); // Replace with your server URL
 
