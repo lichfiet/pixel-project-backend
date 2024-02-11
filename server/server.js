@@ -3,6 +3,8 @@ import ViteExpress from 'vite-express'
 import http from 'http'
 import { Server } from 'socket.io'
 import db from './utils/db.js'
+import logger from './utils/logger.js'
+import 'dotenv/config'
 
 const app = express()
 
@@ -45,12 +47,12 @@ io.on('connection', (socket) => {
 
     socket.on('pixel-update', async (data) => {
 
-        console.log(data.data)
+        logger.info(data.data)
         
         try {
-            console.log(await db.redis.setPixel(data.data.index, data.data.color))
+            logger.info(await db.redis.setPixe(data.data.index, data.data.color))
         } catch (err) {
-
+            logger.info(`An error occured updating the redis cache: ${err.message}`)
         }
 
         io.emit('pixel-update', {data: {index: data.data.index, color: data.data.color}});
@@ -58,21 +60,21 @@ io.on('connection', (socket) => {
 
     socket.on('canvas-reset', async (data) => {
 
-        console.log(data)
-        
         try {
-            console.log(await db.redis.wipeCanvas());
-            console.log(await db.redis.seed());
-        } catch (err) {
+            await db.redis.wipeCanvas()
+            await db.redis.seed()
 
+            io.emit('canvas-reset', {data: 'Canvas Wiped'});
+        } catch (err) {
+            logger.error(err)
+            io.emit('canvas-reset', {data: 'Canvas Not Wiped, Error'});
         }
 
-        io.emit('canvas-reset', {data: 'Canvas Wiped'});
     })
 })
 
 server.listen(8000, () => {
-    console.log(`Hold ctrl and click this: http://localhost:8000/`)
+    logger.info(`Hold ctrl and click this: ${process.env.SERVER_URL}/`)
 })
 
 //open server

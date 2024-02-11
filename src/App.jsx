@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
 import './App.css';
 import axios from 'axios';
+import 'dotenv/config'
 
-const socket = io('http://52.207.59.79:8000'); // Replace with your server URL
+const socket = io(`${process.env.SERVER_URL}`); // Replace with your server URL
 
 function App() {
   const [selected, setSelected] = useState("0, 0");
@@ -11,7 +12,7 @@ function App() {
 
   const board = async () => {
     try {
-      const test1 = await axios.get(`http://52.207.59.79:8000/getCanvas`);
+      const test1 = await axios.get(`${process.env.SERVER_URL}/getCanvas`);
 
       const drawnPixels = test1.data.map(
         (color, index) => (
@@ -97,23 +98,17 @@ function App() {
             ></div>
           ))}
         </div>
-      </div>
-
-      <footer>
         <h1 className='h1'>{selected}</h1>
-        {/* Button that fires test event */}
-        <button onClick={() => socket.emit('canvas-reset', { data: 'I wiped my canvas' })}>
-          Wipe Canvas
-        </button>
+        {/* Wipe Canvas Button */}
+        <button onClick={() => socket.emit('canvas-reset', { data: 'I wiped my canvas' })}> Wipe Canvas </button>
         <div>
           <label htmlFor="head">Current Color</label>
-          <input
-            type="color"
-            id="head"
-            onBlur={handleColorChange}
-          />
+          <input type="color" id="head" onBlur={handleColorChange}/>
         </div>
-      </footer>
+      </div>
+
+
+
     </>
   );
 }
