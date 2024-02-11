@@ -10,8 +10,9 @@
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
   </body>
-  <script src="/node_modules/socket.io/client-dist/socket.io.js"></script>
-  <script>
-    var socket = io()
+  <script type="module">
+    import { io } from "https://cdn.socket.io/4.7.4/socket.io.esm.min.js";
+  
+    const socket = io();
   </script>
 </html>
