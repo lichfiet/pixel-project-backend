@@ -74,7 +74,8 @@ io.on('connection', (socket) => {
 })
 
 server.listen(8000, () => {
-    logger.info(`Hold ctrl and click this: ${process.env.SERVER_URL}/`)
+    logger.info(`Hold ctrl and click this: 
+    /`)
 })
 
 //open server
