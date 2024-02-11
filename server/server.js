@@ -4,9 +4,10 @@ import http from 'http'
 import { Server } from 'socket.io'
 import db from './utils/db.js'
 import logger from './utils/logger.js'
+import dotenv from 'dotenv'
 
 const app = express()
-
+dotenv.config() // load env vars
 app.use(express.urlencoded({ extended: false }))
 app.use(express.json())
 app.use(express.static('public'))
