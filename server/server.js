@@ -22,6 +22,15 @@ ViteExpress.config({ printViteDevServerHost: true })
 //     res.sendFile('index.html', { root: '.' })
 // })
 
+/**
+ * * -------= TO DO =-------
+ * 
+ * ?- create prod and dev env files 
+ * 
+ * - move project to docker for redis and docker for prod node server
+ * 
+ */
+
 await db.redis.connect();
 await db.redis.wipeCanvas();
 await db.redis.setPixel();
@@ -60,7 +69,6 @@ io.on('connection', (socket) => {
         try {
             await db.redis.wipeCanvas()
             await db.redis.seed()
-
             io.emit('canvas-reset', {data: 'Canvas Wiped'});
         } catch (err) {
             logger.error(err)
@@ -71,7 +79,7 @@ io.on('connection', (socket) => {
 })
 
 server.listen(8000, () => {
-    logger.info(`Hold ctrl and click this: http://localhost:8000/`)
+    logger.info(`Hold ctrl and click this: ${process.env.VITE_SERVER_URL}/`)
 })
 
 //open server
