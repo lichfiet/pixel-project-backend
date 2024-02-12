@@ -4,9 +4,10 @@ import http from 'http'
 import { Server } from 'socket.io'
 import db from './utils/db.js'
 import logger from './utils/logger.js'
+import dotenv from 'dotenv'
 
 const app = express()
-
+dotenv.config() // load env vars
 app.use(express.urlencoded({ extended: false }))
 app.use(express.json())
 app.use(express.static('public'))
@@ -20,6 +21,15 @@ ViteExpress.config({ printViteDevServerHost: true })
 // app.get('/', (req, res) => {
 //     res.sendFile('index.html', { root: '.' })
 // })
+
+/**
+ * * -------= TO DO =-------
+ * 
+ * ?- create prod and dev env files 
+ * 
+ * - move project to docker for redis and docker for prod node server
+ * 
+ */
 
 await db.redis.connect();
 await db.redis.wipeCanvas();
@@ -59,7 +69,6 @@ io.on('connection', (socket) => {
         try {
             await db.redis.wipeCanvas()
             await db.redis.seed()
-
             io.emit('canvas-reset', {data: 'Canvas Wiped'});
         } catch (err) {
             logger.error(err)
@@ -70,7 +79,7 @@ io.on('connection', (socket) => {
 })
 
 server.listen(8000, () => {
-    logger.info(`Hold ctrl and click this: ${process.env.SERVER_URL}/`)
+    logger.info(`Hold ctrl and click this: ${process.env.VITE_SERVER_URL}/`)
 })
 
 //open server

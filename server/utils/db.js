@@ -1,6 +1,6 @@
 import { createClient } from 'redis';
 
-const redisClient = createClient();
+const redisClient = createClient({url: `${process.env.VITE_REDIS_URL}`});
 
 const db = {
     pg: {

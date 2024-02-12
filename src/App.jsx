@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import './App.css';
 import axios from 'axios';
 
-const socket = io(`http://localhost:8000`); // Replace with your server URL
+const socket = io(`${import.meta.env.VITE_SERVER_URL}`); // Replace with your server URL
 
 function App() {
   const [selected, setSelected] = useState("0, 0");
@@ -11,7 +11,7 @@ function App() {
 
   const board = async () => {
     try {
-      const test1 = await axios.get(`http://localhost:8000/getCanvas`);
+      const test1 = await axios.get(`${import.meta.env.VITE_SERVER_URL}/getCanvas`);
 
       const drawnPixels = test1.data.map(
         (color, index) => (
