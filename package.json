@@ -8,8 +8,7 @@
     "build": "rm -rdf server/dist && vite build && mv dist server",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
-    "start": "npm run build && node -r dotenv/config server/server.js dotenv_config_path=./env/.env.prod",
-    "docker": "npm run build && node -r dotenv/config server/server.js dotenv_config_path=./env/.env.dockertest"
+    "start": "npm run build && node -r dotenv/config server/server.js dotenv_config_path=./env/.env.prod"
   },
   "dependencies": {
     "axios": "^1.6.7",

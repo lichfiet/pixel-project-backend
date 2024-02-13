@@ -5,13 +5,13 @@ RUN apt-get update && apt-get install -y \
     curl \
     && rm -rf /var/lib/apt/lists/*
 # Create app directory
-WORKDIR /nodeserv
+WORKDIR /src
 
 # Copy files
-COPY . /nodeserv/
+COPY . /src/
 
 # update each dependency in package.json to the latest version
 RUN npm install
 
 EXPOSE 8000
-CMD [ "npm", "run", "docker" ]
+CMD [ "npm", "run", "dev" ]
