@@ -1,5 +1,5 @@
 # r/place clone
-This project is intended to showcase abilites ranging from programming to cloud architechture, system design, and a load of other things.
+This project is intended to showcase abilities ranging from programming to cloud architecture, system design, and a load of other things.
 ## Start Development
 
 ### Requirements
@@ -16,13 +16,9 @@ This project is intended to showcase abilites ranging from programming to cloud 
 To Start:
 
 ```
-
 git clone https://github.com/lichfiet/game.git
-
 cd ./game
-
 chmod u+x ./dev-init.sh
-
 ```
 
 After that, run and then `./dev-init.sh` and you are done. You can connect on [http://localhost:8000/](http://localhost:8000/)
