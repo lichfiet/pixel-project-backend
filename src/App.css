@@ -20,7 +20,7 @@
   align-items: center;
   background: #353535;
   color: #fff;
-  box-shadow: rgba(3, 8, 20, 0.1) 0px 0.15rem 0.5rem, rgba(2, 8, 20, 0.1) 0px 0.075rem 0.175rem;
+  box-shadow: rgba(3, 8, 20, 0.212) 0px 0rem 0.2rem;
   height: 13px;
   width: 13px;
   transition: all 0ms;
@@ -32,8 +32,8 @@
 }
 
 .card:hover {
-  box-shadow: rgb(126, 125, 125) 0px 0em 1.5em;
-  transform: translateY(-1px);
+  box-shadow: rgb(126, 125, 125) 0px 0em 1em;
+  transform: translateY(-0.25px);
 }
 
 .red {
