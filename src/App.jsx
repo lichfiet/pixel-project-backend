@@ -9,11 +9,19 @@ function App() {
   const [pixels, setPixels] = useState([]);
   const [currColor, setCurrColor] = useState('#000000');
 
-  const board = async () => {
-    try {
-      const test1 = await axios.get(`${import.meta.env.VITE_SERVER_URL}/getCanvas`);
+  const board = async (data) => {
 
-      const drawnPixels = test1.data.map(
+    let boardInfo = []
+
+    if (data === undefined) {
+      boardInfo = (await axios.get(`${import.meta.env.VITE_SERVER_URL}/getCanvas`)).data;
+    } else {
+      boardInfo = data
+    }
+
+    try {
+      console.log(4)
+      const drawnPixels = await boardInfo.map(
         (color, index) => (
           { coords: `${Math.ceil((index + 1) / 50)}, ${(index + 1) - (Math.ceil((index + 1) / 50) - 1) * 50}`, color, index, }
         )
@@ -45,8 +53,8 @@ function App() {
     });
 
     socket.on('canvas-reset', ({ data }) => {
-      board();
-      console.log(data);
+      board(data.canvas);
+      console.log("Canvas wiped by user");
     });
 
     board();

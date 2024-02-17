@@ -45,22 +45,16 @@ const db = {
 
             return(test1)
         },
-        seed: async () => {
-            for (let y = 0; y < 2500; y++) {
-                let val = Math.floor(Math.random() * (4 - 1 + 1) + 1);
-                let color;
-
-
-
-                await redisClient.set(`${y}`, `white`);
-            }
-
-            return('Canvas Seeded');
-        },
         wipeCanvas: async () => {
-            await redisClient.flushAll();
+          // drop canvas data
+          await redisClient.flushAll();
 
-            return('Canvas Wiped')
+          // seed canvas by adding 2500 white pixels
+          for (let y = 0; y < 2500; y++) {
+            await redisClient.set(`${y}`, `#ffffff`);
+          }
+
+          return('Canvas Wiped')
         }
     }
 }

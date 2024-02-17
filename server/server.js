@@ -25,28 +25,20 @@ ViteExpress.config({ printViteDevServerHost: true })
 /**
  * * -------= TO DO =-------
  * 
- * ?- create prod and dev env files 
- * 
- * - move project to docker for redis and docker for prod node server
- * 
+ * * - create prod and dev env files 
+ * * -move project to docker for redis and docker for prod node server
+ * ? -Add messaging queues to scale infinitely
+ * ? - 
  */
 
 await db.redis.connect();
 await db.redis.wipeCanvas();
-await db.redis.setPixel();
-await db.redis.seed();
-
-await db.redis.getCanvas();
 
 app.get('/api', (req, res) => {
     res.json({Success: "true"})
 })
 
 app.get('/getCanvas', async (req, res) => {
-    res.status(200).send(await db.redis.getCanvas())
-});
-
-app.put('/setPixel', async (req, res) => {
     res.status(200).send(await db.redis.getCanvas())
 });
 
@@ -67,9 +59,8 @@ io.on('connection', (socket) => {
     socket.on('canvas-reset', async (data) => {
 
         try {
-            await db.redis.wipeCanvas()
-            await db.redis.seed()
-            io.emit('canvas-reset', {data: 'Canvas Wiped'});
+            await db.redis.wipeCanvas();
+            io.emit('canvas-reset', {data: {message: 'Canvas Wiped', canvas: await db.redis.getCanvas()}});
         } catch (err) {
             logger.error(err)
             io.emit('canvas-reset', {data: 'Canvas Not Wiped, Error'});
