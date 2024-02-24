@@ -1,5 +1,7 @@
 FROM node:18
 LABEL authors="Payton Kentch, Trevor Lichfield"
+ARG TARGETARCH
+ENV TARGETARCH=${TARGETARCH:-amd64}
 # update dependencies and install curl
 RUN apt-get update && apt-get install -y \
     curl \
@@ -11,7 +13,9 @@ WORKDIR /src
 COPY . /src/
 
 # update each dependency in package.json to the latest version
-RUN npm install
+RUN rm -rf node_modules
+RUN npm install -g npm-check-updates
+RUN npm install --target_arch=x64 --target_platform=linux --target_libc=glibc
 
 EXPOSE 8000
-CMD [ "npm", "run", "dev" ]
+CMD [ "npm", "run", "start" ]

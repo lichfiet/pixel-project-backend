@@ -8,7 +8,7 @@
     "build": "rm -rdf server/dist && vite build && mv dist server",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
-    "start": "npm run build && node -r dotenv/config server/server.js dotenv_config_path=./env/.env.prod"
+    "start": "npm run build && node -r dotenv/config server/server.js dotenv_config_path=./env/.env.dev"
   },
   "engines": {
     "node": ">=18.0.0",
@@ -39,5 +39,8 @@
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.5",
     "vite": "^5.1.0"
+  },
+  "resolutions": {
+    "rollup": "npm:@rollup/wasm-node"
   }
 }
