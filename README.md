@@ -18,11 +18,25 @@ To Start:
 
 ```
 git clone https://github.com/lichfiet/game.git
-cd ./game
-chmod u+x ./dev-init.sh
 ```
 
-After that, run and then `./dev-init.sh` and you are done. You can connect on [http://localhost:8000/](http://localhost:8000/)
+```
+make init
+make start
+```
+
+OR
+
+Alternatively, if you don't have make installed, you can run
+
+```
+chmod u+x ./make/dev-init.sh \
+./make/dev-init.sh \
+docker build -t game:dev --platform linux/amd64 -f ./docker/build.Dockerfile . \
+docker compose -f ./docker/compose.yaml up -d
+```
+
+You can connect on [http://localhost:8000/](http://localhost:8000/) after.
 
   
 
