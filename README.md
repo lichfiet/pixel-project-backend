@@ -16,6 +16,7 @@ Run *(If you have make installed)*:
 
 ```
 git clone https://github.com/lichfiet/game.git &&
+cd ./game &&
 make init
 ```
 And then to start, `make start`
