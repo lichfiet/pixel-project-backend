@@ -47,9 +47,10 @@ clean: # Remove images, modules, and cached build layers
 
 	rm -rf node_modules
 	rm -rf package-lock.json
-	docker stop webserv
-	docker rm webserv
-	docker image rm game
+	-docker stop webserv
+	-docker rm webserv
+	-docker image rm game
+	rm -rf log
 
 init: # Initailize development environment and start it
 

@@ -28,8 +28,22 @@ version=$(node -v | awk -F'v' '{print $2}')
 if (( $(echo "$version" | awk -F'.' '{print $1}') >= 18 )); then
     echo -e "${BGreen}${CMark}${BBlack} Node.js version is >= 18${NC}"
 else
-    echo -e "${BRed}${FMark}${Black} Node.js version is 17 or less.${NC} \n"
-    exit 2
+    echo -e "${BRed}${FMark}${Black} Node.js version is 17 or less, trying to use NVM.${NC} \n"
+
+    export NVM_DIR=$HOME/.nvm;
+    source $NVM_DIR/nvm.sh;
+
+    nvm install 18
+    nvm use 18
+
+    version=$(node -v | awk -F'v' '{print $2}')
+    if (( $(echo "$version" | awk -F'.' '{print $1}') >= 18 )); then
+        echo -e "\n ${BGreen}${CMark}${BBlack} Node.js version 18 installed and selected successfully.${NC}"
+    else
+        echo -e "${BRed}${FMark}${Black} Node.js version is 17 or less and NVM failed or is not installed.${NC} \n"
+        exit 2
+fi
+
 fi
 
 
