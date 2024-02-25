@@ -37,41 +37,33 @@ fi
 # ....| Install Modules and Container Images |.... #
 echo -e "\n ${BCyan}...Installing Modules and Container Images...${NC} \n"
 
-# get last commit
-git pull > /dev/null 2> error.log
-if [ $? -eq 0 ]; then
-    echo -e "${BGreen}${CMark}${BBlack} git pulled from main ${NC}"
-else
-    echo -e "${BRed}${FMark} git unable to pull from main. ${Black}Check the git_error.log file for more details. \n"
-    exit 3
-fi
 # install node modules and log error if error
-npm install > /dev/null 2> error.log
+npm install
 if [ $? -eq 0 ]; then
-    echo -e "${BGreen}${CMark}${BBlack} Installed Node Modules ${NC}"
+    echo -e "\n${BGreen}${CMark}${BBlack} Installed Node Modules ${NC}"
 else
-    echo -e "${BRed}${FMark} npm install encountered an error. ${Black}Check the npm_error.log file for more details. \n"
+    echo -e "${BRed}${FMark} npm install encountered an error. ${NC}${BBlack} NPM Error Log:\n"
     exit 4
 fi
+
 # install docker images
-docker pull redis:6.2-alpine > /dev/null 2>> error.log
-docker pull node:18 > /dev/null 2>> error.log
+docker pull redis:6.2-alpine
 if [ $? -eq 0 ]; then
-    echo -e "${BGreen}${CMark}${BBlack} Node and Redis Images Pulled. ${NC}"
+    echo -e "${BGreen}${CMark}${BBlack} Redis Image Pulled. ${NC}"
 else
-    echo -e "${BRed}${FMark} One or more docker pull commands encountered an error. ${Black}Check the error.log for more details. \n"
+    echo -e "${BRed}${FMark} One or more docker pull commands encountered an error\n"
     exit 5
 fi
+docker pull node:18
+if [ $? -eq 0 ]; then
+    echo -e "${BGreen}${CMark}${BBlack} Node Image Pulled. ${NC}"
+else
+    echo -e "${BRed}${FMark} One or more docker pull commands encountered an error.\n"
+    exit 5
+fi
+
 # build server image from source
-echo -e "\n${BCyan}...Building Web Container Image...\n"
-docker build . -t game:dev
 rm -f error.log
 
-
 # ....| Launch Dev Server |.... #
-echo -e "\n${BCyan}...Launching Dev Server...${NC} \n"
 
-# run containers
-docker compose up -d
-# echo url
-echo -e "\n${BWhite}Hold ctrl and click this link ${BCyan}'http://localhost:8000'${NC}"

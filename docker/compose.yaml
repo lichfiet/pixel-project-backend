@@ -12,14 +12,16 @@ services:
   webserv:
     container_name: webserv
     image: game:dev
+    environment:
+      - ENVIRONMENT=dev
     depends_on:
       - redis
     ports:
       - 8000:8000
     links:
       - redis
-    # volumes:
-    #   - ./:/src
+    volumes:
+      - ../:/src
 volumes:
   redis:
     driver: local
