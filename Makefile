@@ -50,6 +50,8 @@ clean: # Remove images, modules, and cached build layers
 	-docker stop webserv
 	-docker rm webserv
 	-docker image rm game
+	-docker stop redis
+	-docker rm redis
 	rm -rf log
 
 init: # Initailize development environment and start it
@@ -60,6 +62,9 @@ init: # Initailize development environment and start it
 	@echo "\n${BCyan}...Building Web Container Image...${NC} \n"
 
 	docker build -t $(APP_NAME):dev --platform linux/amd64 -f ./docker/build.Dockerfile .
+
+	@echo "\n${BCyan}...Development Environment Successfully Initialied...${NC} \n"
+	@echo "\n${BBlack}Type ${BCyan}'make help' ${BBlack}for a list of commands${NC} \n"
 
 prod: ## Run for production
 

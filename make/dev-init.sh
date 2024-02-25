@@ -76,8 +76,9 @@ else
     exit 5
 fi
 
-# build server image from source
 rm -f error.log
 
-# ....| Launch Dev Server |.... #
+echo -e "\n${BGreen}${CMark}${BBlack} All Dependencies Installed Successfully. ${NC} \n"
+
+
 
