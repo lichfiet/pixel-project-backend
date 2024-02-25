@@ -59,3 +59,18 @@ init: # Initailize development environment and start it
 	@echo "\n${BCyan}...Building Web Container Image...${NC} \n"
 
 	docker build -t $(APP_NAME):dev --platform linux/amd64 -f ./docker/build.Dockerfile .
+
+prod: ## Run for production
+
+	chmod u+x ./make/dev-init.sh
+	./make/dev-init.sh
+
+	@echo "\n${BCyan}...Building Web Container Image...${NC} \n"
+
+	docker build -t $(APP_NAME):latest --platform linux/amd64 -f ./docker/build.Dockerfile .
+
+	@echo "\n${BCyan}...Launching Dev Server...${NC} \n"
+
+	docker compose -f ./docker/prod-compose.yaml up -d
+
+	@echo "\n${BWhite}Hold ctrl and click this link 'http://localhost:8000'${NC}\n"

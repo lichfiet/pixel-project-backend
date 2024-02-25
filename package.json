@@ -5,10 +5,11 @@
   "type": "module",
   "scripts": {
     "dev": "nodemon -r dotenv/config server/server.js -w server/ -w src/ dotenv_config_path=./env/.env.dev",
-    "build": "rm -rdf server/dist && vite build && mv dist server",
+    "build": "rm -rf server/dist && vite build && mv dist server",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
-    "start": "npm run build && node -r dotenv/config server/server.js dotenv_config_path=./env/.env.dev"
+    "start": "npm run build && node -r dotenv/config server/server.js dotenv_config_path=./env/.env.dev",
+    "prod": "npm run build && node -r dotenv/config server/server.js dotenv_config_path=./env/.env.prod"
   },
   "engines": {
     "node": ">=18.0.0",
