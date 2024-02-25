@@ -80,8 +80,8 @@ io.on('connection', (socket) => {
 
     /** Canvas Reset Event */
     socket.on('canvas-reset', async () => {
-        try {
-            await db.redis.wipeCanvas();
+        try {            
+            logger.info(`Canvas Wiped By User, Redis Response: ` + await db.redis.wipeCanvas())
             io.emit('canvas-reset', {data: {message: 'Canvas Wiped', canvas: await db.redis.getCanvas()}});
         } catch (err) {
             logger.error(err)

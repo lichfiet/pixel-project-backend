@@ -54,7 +54,7 @@ const db = {
             await redisClient.set(`${y}`, `#ffffff`);
           }
 
-          return('Canvas Wiped')
+          return('OK')
         }
     }
 }

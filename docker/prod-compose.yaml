@@ -21,7 +21,7 @@ services:
     links:
       - redis
     volumes:
-      - ../:/src
+      - ../log:/src/log
 volumes:
   redis:
     driver: local
