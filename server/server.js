@@ -16,6 +16,7 @@ import { Server } from 'socket.io'
 import db from './utils/db.js'
 import logger from './utils/logger.js'
 import dotenv from 'dotenv'
+import cors from 'cors'
 
 /** 
  * * Define Variables && Setup 
@@ -25,13 +26,19 @@ import dotenv from 'dotenv'
 dotenv.config()
 // Define And Init Server
 const app = express()
+app.use(cors());
 app.use(express.urlencoded({ extended: false }))
 app.use(express.json())
 app.use(express.static('public'))
 app.use(express.static('dist'))
 // Create Server
 const server = http.createServer(app)
-const io = new Server(server)
+const io = new Server(server, {
+    cors: {
+      origin: "http://place.trevorlichfield.xyz/",
+      methods: ["GET", "POST"]
+    }
+  })
 ViteExpress.config({ printViteDevServerHost: true })
 // Connect and Reset Redis
 await db.redis.connect(); 
