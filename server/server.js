@@ -35,10 +35,12 @@ app.use(express.static('dist'))
 const server = http.createServer(app)
 const io = new Server(server, {
     cors: {
-      origin: "http://place.trevorlichfield.xyz/",
-      methods: ["GET", "POST"]
+        origin: ["http://place.trevorlichfield.xyz:8000/", "http://localhost:8000"],
+        methods: ["GET", "POST"],
+        allowedHeaders: ["my-custom-header"],
+        credentials: true
     }
-  })
+  });
 ViteExpress.config({ printViteDevServerHost: true })
 // Connect and Reset Redis
 await db.redis.connect(); 
