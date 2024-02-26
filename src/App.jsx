@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import './App.css';
 import axios from 'axios';
 
-const socket = io(`${import.meta.env.VITE_SERVER_URL}`); // Replace with your server URL
+const socket = io(`${import.meta.env.VITE_SERVER_URL}/`); // Replace with your server URL
 
 function App() {
   const [selected, setSelected] = useState("0, 0");

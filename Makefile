@@ -32,6 +32,14 @@ start: ## Start node and redis in docker compose
 
 	@echo "\n${BCyan}...Launching Dev Server...${NC} \n"
 
+	docker compose -f ./docker/compose.yaml up
+
+	@echo "\n${BWhite}Hold ctrl and click this link 'http://localhost:8000'${NC}\n"
+
+start-d: ## Start node and redis in docker compose
+
+	@echo "\n${BCyan}...Launching Dev Server...${NC} \n"
+
 	docker compose -f ./docker/compose.yaml up -d
 
 	@echo "\n${BWhite}Hold ctrl and click this link 'http://localhost:8000'${NC}\n"
