@@ -12,6 +12,6 @@
   </body>
   <script src="https://cdn.socket.io/4.7.4/socket.io.min.js" integrity="sha384-Gr6Lu2Ajx28mzwyVR8CFkULdCU7kMlZ9UthllibdOSo6qAiN+yXNHqtgdTvFXMT4" crossorigin="anonymous"></script>
   <script type="text/javascript">
-    const socket = io(["http://localhost:8000", "http://place.trevorlichfield.xyz:8000/"], {});
+    const socket = io([`${process.env.VITE_SERVER_URL}`], {});
   </script>
 </html>
