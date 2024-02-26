@@ -11,13 +11,12 @@
  */
 import express from 'express'
 import ViteExpress from 'vite-express'
-import https from 'https'
+import http from 'http'
 import { Server } from 'socket.io'
 import db from './utils/db.js'
 import logger from './utils/logger.js'
 import dotenv from 'dotenv'
 import cors from 'cors'
-import fs from 'fs';
 
 /** 
  * * Define Variables && Setup 
@@ -32,15 +31,11 @@ app.use(express.urlencoded({ extended: false }))
 app.use(express.json())
 app.use(express.static('public'))
 app.use(express.static('dist'))
-// SSL Certs
-const privateKey = fs.readFileSync('sslcert/server.key', 'utf8'); // key
-const certificate = fs.readFileSync('sslcert/server.crt', 'utf8'); // cert
-const credentials = {key: privateKey, cert: certificate};  
-// Create Websocket Server
-const httpsServer = https.createServer(credentials, app); // server var
-const io = new Server(httpsServer, {
+// Create Server
+const server = http.createServer(app)
+const io = new Server(server, {
     cors: {
-        origin: [`${process.env.VITE_SERVER_URL}`, ""],
+        origin: ["http://place.trevorlichfield.xyz:8000/", ""],
         methods: ["GET", "POST"],
         allowedHeaders: ["my-custom-header"],
         credentials: true
@@ -105,10 +100,9 @@ io.on('connection', (socket) => {
     })
 })
 
-// Start Server
-httpsServer.listen(8000, () => {
+server.listen(8000, () => {
     logger.info(`Hold ctrl and click this: ${process.env.VITE_SERVER_URL}/`)
 })
 
 //open server
-ViteExpress.bind(app, httpsServer)
+ViteExpress.bind(app, server)
