@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webserv # Name of the deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: webserv
+  template:
+    metadata:
+      labels:
+        app: webserv
+    spec:
+      containers:
+        - name: webserv # Name of the container
+          image: game:dev # Image name
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: ENVIROMENT
+              value: "prod"
+          ports:
+            - containerPort: 8000

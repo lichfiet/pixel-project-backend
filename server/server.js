@@ -17,6 +17,7 @@ import db from './utils/db.js'
 import logger from './utils/logger.js'
 import dotenv from 'dotenv'
 import cors from 'cors'
+import path from 'path'
 
 /** 
  * * Define Variables && Setup 
@@ -29,19 +30,18 @@ const app = express()
 app.use(cors());
 app.use(express.urlencoded({ extended: false }))
 app.use(express.json())
-app.use(express.static('public'))
 app.use(express.static('dist'))
 // Create Server
 const server = http.createServer(app)
 const io = new Server(server, {
     cors: {
-        origin: ["http://place.trevorlichfield.xyz:8000/", ""],
+        origin: ["localhost:8000"],
         methods: ["GET", "POST"],
         allowedHeaders: ["my-custom-header"],
-        credentials: true
+        credentials: false
     }
   });
-ViteExpress.config({ printViteDevServerHost: true })
+ViteExpress.config({ printViteDevServerHost: true, mode: process.env.MODE })
 // Connect and Reset Redis
 await db.redis.connect(); 
 await db.redis.wipeCanvas();
@@ -55,6 +55,10 @@ await db.redis.wipeCanvas();
  * ? - /getCanvas | to get canvas data on load
  * 
  */
+
+app.get('/', (req, res) => {
+    res.sendFile('index.html', { root: '.' });
+});
 
 //* Health Check
 app.get('/health', (req, res) => {
@@ -100,9 +104,13 @@ io.on('connection', (socket) => {
     })
 })
 
+
+if (process.env.MODE === 'development') {
+} else {
+    
+};
+ViteExpress.bind(app, server)
+
 server.listen(8000, () => {
     logger.info(`Hold ctrl and click this: ${process.env.VITE_SERVER_URL}/`)
 })
-
-//open server
-ViteExpress.bind(app, server)

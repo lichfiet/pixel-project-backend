@@ -1,7 +1,9 @@
 import { createClient } from 'redis';
+import logger from './logger.js';
 
 const redisClient = createClient({
-  url: `${process.env.VITE_REDIS_URL}`,
+  url: process.env.VITE_REDIS_URL,
+  port: 6379,
 });
 
 const db = {
@@ -10,8 +12,17 @@ const db = {
     },
     redis: {
         connect: async () => {
-            await redisClient.on('error', err => console.log('Redis Client Error', err));
-            await redisClient.connect();
+          try {
+            
+              console.log('Connecting to Redis')
+              await redisClient.on('error', err => console.log('Redis Client Error', err));
+              await redisClient.connect();
+            } catch (error) {
+                console.error('Error in Redis Connection:', error);
+                throw error;
+            } finally {
+              logger.error('Redis Connection Successful');
+            }
         },
         setPixel: async (index, color) => {
                 

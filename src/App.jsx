@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import './App.css';
 import axios from 'axios';
 
-const socket = io(`${import.meta.env.VITE_SERVER_URL}/`); // Replace with your server URL
+const socket = io(`http://localhost:8000`); // Replace with your server URL
 
 function App() {
   const [selected, setSelected] = useState("0, 0");
@@ -14,7 +14,7 @@ function App() {
     let boardInfo = []
 
     if (data === undefined) {
-      boardInfo = (await axios.get(`${import.meta.env.VITE_SERVER_URL}/getCanvas`)).data;
+      boardInfo = (await axios.get(`http://localhost:8000/getCanvas`)).data;
     } else {
       boardInfo = data
     }
@@ -113,9 +113,6 @@ function App() {
           <input type="color" id="head" onBlur={handleColorChange}/>
         </div>
       </div>
-
-
-
     </>
   );
 }
