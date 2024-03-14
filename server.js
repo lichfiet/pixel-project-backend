@@ -10,7 +10,6 @@
  * * Import Dependencies 
  */
 import express from 'express'
-import ViteExpress from 'vite-express'
 import http from 'http'
 import { Server } from 'socket.io'
 import db from './utils/db.js'
@@ -23,7 +22,8 @@ import cors from 'cors'
  */
 
 // Load Env Vars
-dotenv.config()
+dotenv.config();
+
 // Define And Init Server
 const app = express()
 app.use(cors());
@@ -41,11 +41,12 @@ const io = new Server(server, {
         credentials: true
     }
   });
-ViteExpress.config({ printViteDevServerHost: true })
+
 // Connect and Reset Redis
 await db.redis.connect(); 
 await db.redis.wipeCanvas();
 
+console.log("meow")
 
 
 /**
@@ -102,7 +103,4 @@ io.on('connection', (socket) => {
 
 server.listen(8000, () => {
     logger.info(`Hold ctrl and click this: ${process.env.VITE_SERVER_URL}/`)
-})
-
-//open server
-ViteExpress.bind(app, server)
+});

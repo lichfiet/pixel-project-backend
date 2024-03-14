@@ -10,7 +10,6 @@ WORKDIR /src
 COPY ../ /src/
 
 # update each dependency in package.json to the latest version
-RUN rm -rf node_modules
 RUN npm install --target_arch=x64 --target_platform=linux --target_libc=glibc
 
 EXPOSE 8000

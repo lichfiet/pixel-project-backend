@@ -1,7 +1,7 @@
 import { createClient } from 'redis';
 
 const redisClient = createClient({
-  url: `${process.env.VITE_REDIS_URL}`,
+  host: `${process.env.REDIS_URL}`,
 });
 
 const db = {

@@ -1,15 +1,10 @@
 {
-  "name": "game",
+  "name": "pixel-project",
   "private": true,
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "nodemon -r dotenv/config server/server.js -w server/ -w src/ dotenv_config_path=./env/.env.dev",
-    "build": "rm -rf server/dist && vite build && mv dist server",
-    "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview",
-    "start": "npm run build && node -r dotenv/config server/server.js dotenv_config_path=./env/.env.dev",
-    "prod": "npm run build && node -r dotenv/config server/server.js dotenv_config_path=./env/.env.prod"
+    "dev": "nodemon -r dotenv/config server.js -w ./ -w src/ dotenv_config_path=./.env"
   },
   "engines": {
     "node": ">=18.0.0",
@@ -33,14 +28,8 @@
     "vite-express": "^0.15.0"
   },
   "devDependencies": {
-    "@types/react": "^18.2.55",
-    "@types/react-dom": "^18.2.19",
-    "@vitejs/plugin-react": "^4.2.1",
     "eslint": "^8.56.0",
-    "eslint-plugin-react": "^7.33.2",
-    "eslint-plugin-react-hooks": "^4.6.0",
-    "eslint-plugin-react-refresh": "^0.4.5",
-    "vite": "^5.1.0"
+    "nodemon": "^3.0.3"
   },
   "resolutions": {
     "rollup": "npm:@rollup/wasm-node"
