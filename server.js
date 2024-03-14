@@ -33,14 +33,15 @@ app.use(express.static('public'))
 app.use(express.static('dist'))
 // Create Server
 const server = http.createServer(app)
+
 const io = new Server(server, {
     cors: {
-        origin: ["http://place.trevorlichfield.xyz:8000/", ""],
+        origin: ["http://localhost:8000/", "http://localhost:8001"],
         methods: ["GET", "POST"],
         allowedHeaders: ["my-custom-header"],
         credentials: true
     }
-  });
+});
 
 // Connect and Reset Redis
 await db.redis.connect(); 
@@ -100,5 +101,5 @@ io.on('connection', (socket) => {
 })
 
 server.listen(8000, () => {
-    logger.info(`Hold ctrl and click this: ${process.env.VITE_SERVER_URL}/`)
+    logger.info(`Hold ctrl and click this: ${process.env.SERVER_URL}/health`)
 });
