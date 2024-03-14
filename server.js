@@ -46,8 +46,6 @@ const io = new Server(server, {
 await db.redis.connect(); 
 await db.redis.wipeCanvas();
 
-console.log("meow")
-
 
 /**
  * * API Routes

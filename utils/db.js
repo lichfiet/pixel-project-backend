@@ -1,7 +1,8 @@
 import { createClient } from 'redis';
 
 const redisClient = createClient({
-  host: `${process.env.REDIS_URL}`,
+  url: `${process.env.REDIS_URL}`,
+  port: 6379
 });
 
 const db = {

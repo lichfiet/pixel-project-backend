@@ -4,7 +4,8 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "nodemon -r dotenv/config server.js -w ./ -w src/ dotenv_config_path=./.env"
+    "dev": "nodemon -r dotenv/config server.js -w ./ -w src/ dotenv_config_path=./.env",
+    "prod": "node -r dotenv/config server.js -w ./ -w src/ dotenv_config_path=./.env"
   },
   "engines": {
     "node": ">=18.0.0",
