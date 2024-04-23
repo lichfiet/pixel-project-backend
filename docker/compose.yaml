@@ -11,7 +11,7 @@ services:
       - redis:/data
   node-server:
     container_name: node-server
-    image: game:dev
+    image: pixel-project:dev
     environment:
       - ENVIRONMENT=dev
     depends_on:

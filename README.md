@@ -15,7 +15,7 @@ This project is intended to showcase abilities ranging from programming to cloud
 Run *(If you have make installed)*: 
 
 ```
-git clone https://github.com/lichfiet/game.git &&
+git clone https://github.com/lichfiet/pixel-project-backend.git &&
 cd ./game &&
 make init
 ```
@@ -24,19 +24,20 @@ And then to start, `make start`
 *Alternatively, if you don't have make installed, you can run*
 
 ```
+git clone https://github.com/lichfiet/pixel-project-backend.git &&
 chmod u+x ./make/dev-init.sh &&
 ./make/dev-init.sh &&
-docker build -t game:dev --platform linux/amd64 -f ./docker/build.Dockerfile . &&
+docker build -t pixel-project:dev --platform linux/amd64 -f ./docker/build.Dockerfile . &&
 ```
 and to start, `docker compose -f ./docker/compose.yaml up -d`.
 
 
 
-Once you are up and running, you can connect on [http://localhost:8000/](http://localhost:8000/) after. Any changes made in your `./game` folder will auto-update the website.
+Once you are up and running, you can connect on [http://localhost:8000/](http://localhost:8000/) to test the API. If you want to interact with the backend, you'll need to also download the [pixel-project-web](https://github.com/lichfiet/pixel-project-web.git) repository and start it.
 
 ##### Project Structure
 
-All node server files are stored in the `server/` directory, and all relevant web files are stored in `src/`. 
+Will Add...
 
 
 
