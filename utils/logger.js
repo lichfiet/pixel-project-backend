@@ -6,7 +6,7 @@ const transport = pino.transport({
       level: 'info',
       target: 'pino-pretty',
       options: {
-        destination: `./log/${new Date().toLocaleDateString("de-DE")}.log`,
+        destination: `./${new Date().toLocaleDateString("de-DE")}.log`,
         colorize: false
       },
     },

@@ -1,4 +1,5 @@
 import { createClient } from 'redis';
+import logger from './logger.js';
 
 const redisClient = createClient({
   url: `${process.env.REDIS_URL}`,
@@ -11,8 +12,8 @@ const db = {
     },
     redis: {
         connect: async () => {
-            await redisClient.on('error', err => console.log('Redis Client Error', err));
-            await redisClient.connect();
+            await redisClient.on('error', err => logger.error(`Redis Client Error, ${err}`));
+            await redisClient.connect('error', err => logger.error(`Redis Client Error, ${err}`));
         },
         setPixel: async (index, color) => {
                 
