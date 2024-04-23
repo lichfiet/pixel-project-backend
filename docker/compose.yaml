@@ -1,7 +1,7 @@
 version: '3.8'
 services:
-  redis:
-    container_name: redis
+  redis-server:
+    container_name: redis-server
     image: redis:6.2-alpine
     restart: always
     ports:
@@ -9,17 +9,17 @@ services:
     command: redis-server --save 20 1 --loglevel warning
     volumes: 
       - redis:/data
-  webserv:
-    container_name: webserv
+  node-server:
+    container_name: node-server
     image: game:dev
     environment:
       - ENVIRONMENT=dev
     depends_on:
-      - redis
+      - redis-server
     ports:
       - 8000:8000
     links:
-      - redis
+      - redis-server
     volumes:
       - ../:/src
 volumes:
